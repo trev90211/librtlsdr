@@ -31,7 +31,7 @@ jobs:
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v4
       with:
-        name: ubuntu_latest_build
+        name: ubuntu_latest_build.tar.gz
         path: librtlsdr_build_ubuntu-amd64_latest.tar.gz
 
   build_macos_latest:
@@ -57,7 +57,7 @@ jobs:
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v4
       with:
-        name: macos_latest_build
+        name: macos_latest_build.tar.gz
         path: librtlsdr_build_macos-latest.tar.gz
 
   cross_build_win32_win64_latest:
