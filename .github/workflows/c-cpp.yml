@@ -20,7 +20,14 @@ jobs:
     - name: cmake_make
       run: mkdir build && cmake -S . -B build && cd build && make
     - name: compress
-      run: tar zcvf librtlsdr_build_ubuntu-amd64_latest.tar.gz --directory=build/src --exclude=CMakeFiles --exclude=*.cmake --exclude=Makefile --exclude=rtl_app_ver.h .
+      run: |
+        tar zcvf librtlsdr_build_ubuntu-amd64_latest.tar.gz \
+        --directory=build/src \
+        --exclude=CMakeFiles \
+        --exclude=*.cmake \
+        --exclude=Makefile \
+        --exclude=rtl_app_ver.h \
+        .
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v4
       with:
@@ -39,7 +46,14 @@ jobs:
     - name: cmake_make
       run: mkdir build && cmake -S . -B build && cd build && make
     - name: compress
-      run: tar zcvf librtlsdr_build_macos-latest.tar.gz --directory=build/src --exclude=CMakeFiles --exclude=*.cmake --exclude=Makefile --exclude=rtl_app_ver.h .
+      run: |
+        tar zcvf librtlsdr_build_macos-latest.tar.gz \
+        --directory=build/src \
+        --exclude=CMakeFiles \
+        --exclude=*.cmake \
+        --exclude=Makefile \
+        --exclude=rtl_app_ver.h \
+        .
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v4
       with:
