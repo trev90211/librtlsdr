@@ -102,7 +102,6 @@ jobs:
         ## cd ${{github.workspace}}/build
         ls
         cmake -B build_rtl-sdr -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
-              ## --log-level=DEBUG --trace-expand --debug-find 
               -DLIBUSB_LIBRARIES=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
               -DLIBUSB_PKG_LIBRARY_DIRS=${{runner.workspace}}/libusb/build/v143/x64/Release/dll `
               -DLIBUSB_INCLUDE_DIRS=${{runner.workspace}}/libusb/libusb `
@@ -111,6 +110,7 @@ jobs:
               -DTHREADS_PTHREADS_LIBRARY=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
               -DTHREADS_PTHREADS_WIN32_LIBRARY=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
               -DCMAKE_THREAD_LIBS_INIT=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib 
+              ## --log-level=DEBUG --trace-expand --debug-find 
 
     - name: List rtlsdr 1
       run: |
