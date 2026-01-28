@@ -1,5 +1,7 @@
 if(NOT LIBUSB_FOUND)
-  pkg_check_modules (LIBUSB_PKG libusb-1.0)
+  IF(NOT MSVC)
+    pkg_check_modules (LIBUSB_PKG libusb-1.0)
+  endif()
   find_path(LIBUSB_INCLUDE_DIR NAMES libusb.h
     PATHS
     ${LIBUSB_PKG_INCLUDE_DIRS}
