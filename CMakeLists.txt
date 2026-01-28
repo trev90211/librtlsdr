@@ -114,7 +114,9 @@ ENDIF()
 ########################################################################
 # Find build dependencies
 ########################################################################
-find_package(PkgConfig)
+if(NOT WIN32)
+    find_package(PkgConfig)
+endif()
 find_package(LibUSB)
 cmake_policy(SET CMP0075 NEW)
 if(WIN32 AND NOT MINGW)
