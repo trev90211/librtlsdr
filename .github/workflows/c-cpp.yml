@@ -68,22 +68,30 @@ jobs:
     - name: prerequisites
       run: sudo apt -qq update && sudo apt -yqq install gcc-mingw-w64
     - name: build_w32_static
-      run: bash ./cross_build_mingw32.sh static -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON
+      run: bash ./cross_build_mingw32.sh static \
+           -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON
     - name: build_w32_static_udpsrv
-      run: bash ./cross_build_mingw32.sh static_udpsrv -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON -DPROVIDE_UDP_SERVER=ON
+      run: bash ./cross_build_mingw32.sh static_udpsrv \
+           -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON \
+           -DPROVIDE_UDP_SERVER=ON
     - name: build_w32_dlldep
       run: bash ./cross_build_mingw32.sh dlldep
     - name: build_w32_dlldep_udpsrv
-      run: bash ./cross_build_mingw32.sh dlldep_udpsrv -DPROVIDE_UDP_SERVER=ON
+      run: bash ./cross_build_mingw32.sh dlldep_udpsrv \
+           -DPROVIDE_UDP_SERVER=ON
 
     - name: build_w64_static
-      run: bash ./cross_build_mingw64.sh static -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON
+      run: bash ./cross_build_mingw64.sh static \
+           -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON
     - name: build_w64_static_udpsrv
-      run: bash ./cross_build_mingw64.sh static_udpsrv -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON -DPROVIDE_UDP_SERVER=ON
+      run: bash ./cross_build_mingw64.sh static_udpsrv \
+           -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON 
+           -DPROVIDE_UDP_SERVER=ON
     - name: build_w64_dlldep
       run: bash ./cross_build_mingw64.sh dlldep
     - name: build_w64_dlldep_udpsrv
-      run: bash ./cross_build_mingw64.sh dlldep_udpsrv -DPROVIDE_UDP_SERVER=ON
+      run: bash ./cross_build_mingw64.sh dlldep_udpsrv \
+           -DPROVIDE_UDP_SERVER=ON
 
     - name: 'upload w32 static artifact'
       uses: actions/upload-artifact@v4
