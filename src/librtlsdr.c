@@ -4640,7 +4640,8 @@ int rtlsdr_set_opt_string(rtlsdr_dev_t *dev, const char *opts, int verbose)
 		softagc_init(dev);
 
 #ifdef WITH_UDP_SERVER
-	if (dev->udpPortNo && dev->srv_started == 0 && dev->tuner_type==RTLSDR_TUNER_R820T) {
+	if (dev->udpPortNo && dev->srv_started == 0 && 
+		(dev->tuner_type==RTLSDR_TUNER_R820T || dev->tuner_type==RTLSDR_TUNER_R828D)) {
 		/* signal(SIGPIPE, SIG_IGN); */
 		if(pthread_create(&dev->srv_thread, NULL, srv_server, dev)) {
 			fprintf(stderr, "Error creating thread\n");
