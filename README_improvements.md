@@ -21,7 +21,7 @@ against librtlsdr's development branch (initially same date, but updated 2020-10
 
 * support for all GPIO pins of RTL2832 through API and rtl_biast
 
-  * functions were provided from Marko Cebokli at http://lea.hamradio.si/~s57uuu/mischam/rtlsdr/ports.html
+  * functions were provided from Marko Cebokli at https://lea.hamradio.si/~s57uuu/mischam/rtlsdr/ports.html
 
 * improvements for R820T/2 tuner
   also see https://codingspirit.de/librtlsdr-driver.pdf
