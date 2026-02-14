@@ -387,6 +387,9 @@ int main(int argc, char **argv)
 	pthread_cond_init(&ready, NULL);
 	pthread_mutex_init(&ready_m, NULL);
 	squares_precompute();
+	const char * rtlOpts = NULL;
+	int count;
+	int gains[100];
 
 	while ((opt = getopt(argc, argv, "d:g:p:e:Q:VST")) != -1)
 	{
@@ -416,6 +419,8 @@ int main(int argc, char **argv)
 		case 'T':
 			enable_biastee = 1;
 			break;
+		case 'O':
+			rtlOpts = optarg;
 		default:
 			usage();
 			return 0;
@@ -455,6 +460,14 @@ int main(int argc, char **argv)
 	SetConsoleCtrlHandler( (PHANDLER_ROUTINE) sighandler, TRUE );
 #endif
 
+	count = rtlsdr_get_tuner_gains(dev, NULL);
+	fprintf(stderr, "Supported gain values (%d): ", count);
+
+	count = rtlsdr_get_tuner_gains(dev, gains);
+	for (i = 0; i < count; i++)
+		fprintf(stderr, "%.1f ", gains[i] / 10.0);
+	fprintf(stderr, "\n");
+
 	if (strcmp(filename, "-") == 0) { /* Write samples to stdout */
 		file = stdout;
 		setvbuf(stdout, NULL, _IONBF, 0);
@@ -485,6 +498,11 @@ int main(int argc, char **argv)
 
 	/* Set the sample rate */
 	verbose_set_sample_rate(dev, ADSB_RATE);
+
+	/* set - especially sideband */
+	if (rtlOpts) {
+		rtlsdr_set_opt_string(dev, rtlOpts, 1);
+	}
 
 	rtlsdr_set_bias_tee(dev, enable_biastee);
 	if (enable_biastee)
