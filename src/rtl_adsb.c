@@ -388,6 +388,7 @@ int main(int argc, char **argv)
 	pthread_mutex_init(&ready_m, NULL);
 	squares_precompute();
 	const char * rtlOpts = NULL;
+	int i;
 	int count;
 	int gains[100];
 
@@ -421,6 +422,7 @@ int main(int argc, char **argv)
 			break;
 		case 'O':
 			rtlOpts = optarg;
+			break;
 		default:
 			usage();
 			return 0;
