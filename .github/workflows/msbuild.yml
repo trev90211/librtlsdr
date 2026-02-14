@@ -4,10 +4,6 @@ on:
   workflow_dispatch:
   # Trigger the workflow on push or pull request - but only for the main branch
   push:
-    branches:
-      - master
-    tags-ignore:
-      - 'v*'
   pull_request:
     branches:
       - master
@@ -184,6 +180,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
