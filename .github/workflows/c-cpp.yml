@@ -3,9 +3,9 @@ name: C/C++ CI
 on:
   workflow_dispatch:
   push:
-    branches: [ master, development ]
+    branches: [ master, development, comms ]
   pull_request:
-    branches: [ master, development ]
+    branches: [ master, development, comms ]
 
 jobs:
   build_ubuntu-amd64_latest:
@@ -85,7 +85,7 @@ jobs:
            -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON
     - name: build_w64_static_udpsrv
       run: bash ./cross_build_mingw64.sh static_udpsrv \
-           -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON 
+           -DLINK_RTLTOOLS_AGAINST_STATIC_LIB=ON \
            -DPROVIDE_UDP_SERVER=ON
     - name: build_w64_dlldep
       run: bash ./cross_build_mingw64.sh dlldep
