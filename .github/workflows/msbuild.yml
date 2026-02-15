@@ -95,8 +95,8 @@ jobs:
     - name: RTL-SDR configure build
       working-directory: ${{github.workspace}}
       run: |
-        mkdir ${{github.workspace}}/build
-        cmake -B build_rtl-sdr -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
+        #mkdir ${{github.workspace}}/build
+        cmake -B build_rtl-sdr_udpsrv -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
               -DLIBUSB_LIBRARIES=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
               -DLIBUSB_PKG_LIBRARY_DIRS=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib  `
               -DLIBUSB_INCLUDE_DIRS=${{runner.workspace}}/libusb/libusb `
@@ -115,7 +115,7 @@ jobs:
 
     - name: cmake 
       run: |
-        cmake --build build_rtl-sdr --config Release --verbose
+        cmake --build build_rtl-sdr_udpsrv --config Release --verbose
         echo "*********************************************"
 
     - name: List cmake 2
@@ -126,7 +126,7 @@ jobs:
 
     - name: cmake install
       run: |
-        cmake --install build_rtl-sdr --prefix dist --verbose
+        cmake --install build_rtl-sdr_udpsrv --prefix dist --verbose
         ###echo "* ${{github.workspace}} : `git show --format='%h (%s, %as)' --no-patch`" >> ${{github.workspace}}/release_notes.md
 
     - name: List after build
@@ -168,4 +168,5 @@ jobs:
             COPYING
             AUTHORS
             README
+
 
