@@ -114,7 +114,7 @@ ENDIF()
 ########################################################################
 # Find build dependencies
 ########################################################################
-if(NOT MSVC)
+if(MINGW)
     find_package(PkgConfig)
 endif()
 find_package(LibUSB)
