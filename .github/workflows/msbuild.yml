@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   # Trigger the workflow on push or pull request - but only for the main branch
   push:
-  pull_request:
+  pull_request: 
 
 defaults:
   run:
@@ -13,6 +13,7 @@ defaults:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  DO_LIST: True
 
 jobs:
   build-on-windows:
@@ -36,6 +37,9 @@ jobs:
           cd "${{ runner.workspace }}"
           git clone https://github.com/libusb/libusb libusb
           git clone https://github.com/GerHobbelt/pthread-win32 pthread-win32
+    - name: List clone 
+      if: ${{ env.DO_LIST == 'True' }}
+      run: |
           echo "********************************************"
           ls
           echo "********************************************"
@@ -60,6 +64,7 @@ jobs:
                 --target install
                 
     - name: List pthread
+      if: ${{ env.DO_LIST == 'True' }}
       run: |
           echo "********************************************"
           ls 
@@ -78,11 +83,9 @@ jobs:
                 /m `
                 -property:Configuration=Release `
                 -property:Platform=x64
-          ## cmake --build . `
-          ##      --config Release `
-          ##      --target install
 
     - name: List libusb
+      if: ${{ env.DO_LIST == 'True' }}
       run: |
           echo "********************************************"
           ls -Recurse -Exclude ".git,debian"  -Path "${{ runner.workspace }}/libusb"
@@ -92,10 +95,8 @@ jobs:
     - name: RTL-SDR configure build
       working-directory: ${{github.workspace}}
       run: |
-        mkdir ${{github.workspace}}/build
-        ## cd ${{github.workspace}}/build
-        ls
-        cmake -B build_rtl-sdr -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
+        #mkdir ${{github.workspace}}/build
+        cmake -B build_rtl-sdr_udpsrv -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
               -DLIBUSB_LIBRARIES=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
               -DLIBUSB_PKG_LIBRARY_DIRS=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib  `
               -DLIBUSB_INCLUDE_DIRS=${{runner.workspace}}/libusb/libusb `
@@ -108,27 +109,38 @@ jobs:
               ## --log-level=DEBUG --trace-expand --debug-find 
 
     - name: List rtlsdr 1
+      if: ${{ env.DO_LIST == 'True' }}
       run: |
         ls -Recurse -Exclude ".git,libusb,pthread-win32,debian"
-        ## cd ..
 
     - name: cmake 
       run: |
-        ## cd build
-        cmake --build build_rtl-sdr --config Release --verbose
+        cmake --build build_rtl-sdr_udpsrv --config Release --verbose
         echo "*********************************************"
 
-    - name: List rtlsdr 2
+    - name: List cmake 1
+      if: ${{ env.DO_LIST == 'True' }}
       run: |
         ls 
         ls -Recurse -Exclude ".git,libusb,pthread-win32,debian"
-
-    - name: cmake install
+        
+    - name: Collect files to distribute
+      working-directory: ${{github.workspace}}
       run: |
-        cmake --install build_rtl-sdr --prefix dist --verbose
-        ###echo "* ${{github.workspace}} : `git show --format='%h (%s, %as)' --no-patch`" >> ${{github.workspace}}/release_notes.md
+        mkdir dist/bin
+        cp build_rtl-sdr_udpsrv/src/Release/* dist/bin
+        cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
+        cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
+        ls -Path dist/bin
 
-    - name: List
+
+    #- name: cmake install
+    #  run: |
+    #    cmake --install build_rtl-sdr_udpsrv --prefix dist --verbose
+    #    ###echo "* ${{github.workspace}} : `git show --format='%h (%s, %as)' --no-patch`" >> ${{github.workspace}}/release_notes.md
+
+    - name: List after build
+      if: ${{ env.DO_LIST == 'True' }}
       run: |
           ## cat "${{ github.workspace }}/build/src/cmake_install.cmake"
           ls -Path "${{ runner.workspace }}"
@@ -148,27 +160,17 @@ jobs:
           echo "*********************************************"
           cat "${{ github.workspace }}/build\src\rtlsdr.vcxproj"
           echo "*********************************************"
-    
-
-    #- name: Dir Listing
-    #  working-directory: ${{runner.workspace}}
-    #  shell: bash
-    #  run: find . >src_listing.txt
 
     - name: Collect files to distribute
       working-directory: ${{github.workspace}}
-    #  shell: bash
       run: |
         cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
         cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
-        # cp "${{github.workspace}}/ExtIO_RTL/README.md" ./
-        # cp "${{github.workspace}}/ExtIO_RTL/COPYING" ./LICENSE
-
 
     - name: package and upload
       uses: actions/upload-artifact@v4
       with:
-        name: librtlsdr_librtlsdr_dist
+        name: librtlsdr_librtlsdr_w64_udpsrv_msdist
         path: |
             dist/lib/rtlsdr.lib
             dist/bin
@@ -176,14 +178,6 @@ jobs:
             COPYING
             AUTHORS
             README
-            # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
-            # ${{ runner.workspace }}/pthread-win32/shared/bin
-
-
-
-
-
-
 
 
 
