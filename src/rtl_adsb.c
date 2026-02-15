@@ -116,6 +116,7 @@ void usage(void)
 		"\twhile true; do rtl_adsb | nc -lp 8080; done\n"
 		"Streaming with socat:\n"
 		"\trtl_adsb | socat -u - TCP4:sdrsharp.com:47806\n"
+		, rtlsdr_get_opt_help(1) ,
 		"\n");
 	exit(1);
 }
@@ -393,7 +394,7 @@ int main(int argc, char **argv)
 	int count;
 	int gains[100];
 
-	while ((opt = getopt(argc, argv, "d:g:p:e:Q:VSTO")) != -1)
+	while ((opt = getopt(argc, argv, "d:g:p:e:Q:O:VST")) != -1)
 	{
 		switch (opt) {
 		case 'd':
