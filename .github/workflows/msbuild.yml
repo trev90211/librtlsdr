@@ -4,13 +4,7 @@ on:
   workflow_dispatch:
   # Trigger the workflow on push or pull request - but only for the main branch
   push:
-    branches:
-      - master
-    tags-ignore:
-      - 'v*'
-  pull_request:
-    branches:
-      - master
+  pull_request: 
 
 defaults:
   run:
@@ -19,7 +13,7 @@ defaults:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  DO_LIST: True
+  DO_LIST: False
 
 jobs:
   build-on-windows:
@@ -193,6 +187,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
