@@ -3,9 +3,7 @@ name: C/C++ CI
 on:
   workflow_dispatch:
   push:
-    branches: [ master, development ]
   pull_request:
-    branches: [ master, development ]
 
 jobs:
   build_ubuntu-amd64_latest:
