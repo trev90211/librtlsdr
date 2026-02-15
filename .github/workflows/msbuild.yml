@@ -118,16 +118,26 @@ jobs:
         cmake --build build_rtl-sdr_udpsrv --config Release --verbose
         echo "*********************************************"
 
-    - name: List cmake 2
+    - name: List cmake 1
       if: ${{ env.DO_LIST == 'True' }}
       run: |
         ls 
         ls -Recurse -Exclude ".git,libusb,pthread-win32,debian"
-
-    - name: cmake install
+        
+    - name: Collect files to distribute
+      working-directory: ${{github.workspace}}
       run: |
-        cmake --install build_rtl-sdr_udpsrv --prefix dist --verbose
-        ###echo "* ${{github.workspace}} : `git show --format='%h (%s, %as)' --no-patch`" >> ${{github.workspace}}/release_notes.md
+        mkdir dist/bin
+        cp build_rtl-sdr_udpsrv/* dist/bin
+        cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
+        cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
+        ls -Path dist/bin
+
+
+    #- name: cmake install
+    #  run: |
+    #    cmake --install build_rtl-sdr_udpsrv --prefix dist --verbose
+    #    ###echo "* ${{github.workspace}} : `git show --format='%h (%s, %as)' --no-patch`" >> ${{github.workspace}}/release_notes.md
 
     - name: List after build
       if: ${{ env.DO_LIST == 'True' }}
@@ -168,6 +178,7 @@ jobs:
             COPYING
             AUTHORS
             README
+
 
 
 
