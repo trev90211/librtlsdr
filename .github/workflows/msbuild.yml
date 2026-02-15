@@ -70,6 +70,7 @@ jobs:
                 --target install
                 
     - name: List pthread
+      if: ${{ env.DO_LIST }}
       run: |
           echo "********************************************"
           ls 
@@ -93,6 +94,7 @@ jobs:
           ##      --target install
 
     - name: List libusb
+      if: ${{ env.DO_LIST }}
       run: |
           echo "********************************************"
           ls -Recurse -Exclude ".git,debian"  -Path "${{ runner.workspace }}/libusb"
@@ -104,7 +106,7 @@ jobs:
       run: |
         mkdir ${{github.workspace}}/build
         ## cd ${{github.workspace}}/build
-        ls
+        #ls
         cmake -B build_rtl-sdr -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
               -DLIBUSB_LIBRARIES=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
               -DLIBUSB_PKG_LIBRARY_DIRS=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib  `
@@ -118,6 +120,7 @@ jobs:
               ## --log-level=DEBUG --trace-expand --debug-find 
 
     - name: List rtlsdr 1
+      if: ${{ env.DO_LIST }}
       run: |
         ls -Recurse -Exclude ".git,libusb,pthread-win32,debian"
         ## cd ..
@@ -128,7 +131,8 @@ jobs:
         cmake --build build_rtl-sdr --config Release --verbose
         echo "*********************************************"
 
-    - name: List rtlsdr 2
+    - name: List cmake 2
+      if: ${{ env.DO_LIST }}
       run: |
         ls 
         ls -Recurse -Exclude ".git,libusb,pthread-win32,debian"
@@ -138,7 +142,8 @@ jobs:
         cmake --install build_rtl-sdr --prefix dist --verbose
         ###echo "* ${{github.workspace}} : `git show --format='%h (%s, %as)' --no-patch`" >> ${{github.workspace}}/release_notes.md
 
-    - name: List
+    - name: List after build
+      if: ${{ env.DO_LIST }}
       run: |
           ## cat "${{ github.workspace }}/build/src/cmake_install.cmake"
           ls -Path "${{ runner.workspace }}"
@@ -188,6 +193,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
