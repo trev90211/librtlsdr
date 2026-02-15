@@ -13,7 +13,7 @@ defaults:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  DO_LIST: False
+  DO_LIST: True
 
 jobs:
   build-on-windows:
@@ -168,5 +168,6 @@ jobs:
             COPYING
             AUTHORS
             README
+
 
 
