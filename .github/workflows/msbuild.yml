@@ -19,6 +19,7 @@ defaults:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  DO_LIST: True
 
 jobs:
   build-on-windows:
@@ -42,6 +43,9 @@ jobs:
           cd "${{ runner.workspace }}"
           git clone https://github.com/libusb/libusb libusb
           git clone https://github.com/GerHobbelt/pthread-win32 pthread-win32
+    - name: List clone 
+      if: ${{ env.DO_LIST }}
+      run: |
           echo "********************************************"
           ls
           echo "********************************************"
@@ -184,6 +188,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
