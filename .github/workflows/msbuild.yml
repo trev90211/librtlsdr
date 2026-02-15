@@ -128,7 +128,7 @@ jobs:
       working-directory: ${{github.workspace}}
       run: |
         mkdir dist/bin
-        cp build_rtl-sdr_udpsrv/* dist/bin
+        cp build_rtl-sdr_udpsrv/src/Release/* dist/bin
         cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
         cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
         ls -Path dist/bin
@@ -178,6 +178,7 @@ jobs:
             COPYING
             AUTHORS
             README
+
 
 
 
