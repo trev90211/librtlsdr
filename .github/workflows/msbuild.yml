@@ -83,9 +83,6 @@ jobs:
                 /m `
                 -property:Configuration=Release `
                 -property:Platform=x64
-          ## cmake --build . `
-          ##      --config Release `
-          ##      --target install
 
     - name: List libusb
       if: ${{ env.DO_LIST == 'True' }}
@@ -99,8 +96,6 @@ jobs:
       working-directory: ${{github.workspace}}
       run: |
         mkdir ${{github.workspace}}/build
-        ## cd ${{github.workspace}}/build
-        #ls
         cmake -B build_rtl-sdr -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
               -DLIBUSB_LIBRARIES=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
               -DLIBUSB_PKG_LIBRARY_DIRS=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib  `
@@ -117,11 +112,9 @@ jobs:
       if: ${{ env.DO_LIST == 'True' }}
       run: |
         ls -Recurse -Exclude ".git,libusb,pthread-win32,debian"
-        ## cd ..
 
     - name: cmake 
       run: |
-        ## cd build
         cmake --build build_rtl-sdr --config Release --verbose
         echo "*********************************************"
 
@@ -157,27 +150,17 @@ jobs:
           echo "*********************************************"
           cat "${{ github.workspace }}/build\src\rtlsdr.vcxproj"
           echo "*********************************************"
-    
-
-    #- name: Dir Listing
-    #  working-directory: ${{runner.workspace}}
-    #  shell: bash
-    #  run: find . >src_listing.txt
 
     - name: Collect files to distribute
       working-directory: ${{github.workspace}}
-    #  shell: bash
       run: |
         cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
         cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
-        # cp "${{github.workspace}}/ExtIO_RTL/README.md" ./
-        # cp "${{github.workspace}}/ExtIO_RTL/COPYING" ./LICENSE
-
 
     - name: package and upload
       uses: actions/upload-artifact@v4
       with:
-        name: librtlsdr_librtlsdr_dist
+        name: librtlsdr_librtlsdr_w64_udpsrv_msdist
         path: |
             dist/lib/rtlsdr.lib
             dist/bin
@@ -185,6 +168,4 @@ jobs:
             COPYING
             AUTHORS
             README
-            # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
-            # ${{ runner.workspace }}/pthread-win32/shared/bin
 
