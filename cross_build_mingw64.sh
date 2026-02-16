@@ -11,12 +11,13 @@ fi
 
 ZIP_POST="$1"
 shift
+PARAMS="$@"
 
 CROSS="x86_64-w64-mingw32"
 WN="w64"
 TOOLCHAIN="mingw-w64-x64_64.cmake"
 
-echo "$@"
+echo "$PARAMS"
 
 # libusb
 if /bin/true; then
@@ -46,10 +47,10 @@ if /bin/true; then
   echo "start build of librtlsdr_${WN}"
   mkdir ${REPO_DIR}/build_${WN} 
   cd ${REPO_DIR}/build_${WN}
-  echo "$@"
+  echo "$PARAMS"
   cmake -DCMAKE_TOOLCHAIN_FILE=${REPO_DIR}/${TOOLCHAIN} \
       -DCMAKE_INSTALL_PREFIX=${REPO_DIR}/rtlsdr-bin-${WN}_${ZIP_POST} \
-      "$@"  \
+      "$PARAMS"  \
       -DLIBUSB_INCLUDE_DIR=${REPO_DIR}/mingw_libusb_${WN}/include/libusb-1.0 \
       -DLIBUSB_LIBRARIES=${REPO_DIR}/mingw_libusb_${WN}/lib/libusb-1.0.a \
       -S ..  
