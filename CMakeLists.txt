@@ -65,6 +65,7 @@ configure_file(
 
 if(PROVIDE_UDP_SERVER)
     add_definitions(-DWITH_UDP_SERVER)
+    message(STATUS "add_definitions(-DWITH_UDP_SERVER)")
 endif()
 
 ########################################################################
