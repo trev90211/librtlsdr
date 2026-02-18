@@ -105,7 +105,7 @@ jobs:
               -DTHREADS_PTHREADS_LIBRARY=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
               -DTHREADS_PTHREADS_WIN32_LIBRARY=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
               -DCMAKE_THREAD_LIBS_INIT=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
-              /DPROVIDE_UDP_SERVER#ON
+              /DPROVIDE_UDP_SERVER=ON
               ## --log-level=DEBUG --trace-expand --debug-find 
 
     - name: List rtlsdr 1
