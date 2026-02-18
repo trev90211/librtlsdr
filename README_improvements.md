@@ -217,4 +217,3 @@ new alternative: environment variable **LIBRTLSDR_OPT**
 * response(s) at +1 of control port: 1235, configurable via CLI
 
 * protocol details in protocol_rtl_tcp.txt
-

@@ -2,8 +2,9 @@ name: msbuild
 
 on:
   workflow_dispatch:
+  # Trigger the workflow on push or pull request - but only for the main branch
   push:
-  pull_request:
+  pull_request: 
 
 defaults:
   run:
@@ -12,7 +13,7 @@ defaults:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  DO_LIST: False 
+  DO_LIST: True
 
 jobs:
   build-on-windows:
@@ -138,33 +139,33 @@ jobs:
     #    cmake --install build_rtl-sdr_udpsrv --prefix dist --verbose
     #    ###echo "* ${{github.workspace}} : `git show --format='%h (%s, %as)' --no-patch`" >> ${{github.workspace}}/release_notes.md
 
-    #- name: List after build
-    #  if: ${{ env.DO_LIST == 'True' }}
-    #  run: |
-    #      ## cat "${{ github.workspace }}/build/src/cmake_install.cmake"
-    #      ls -Path "${{ runner.workspace }}"
-    #      echo "*********************************************"
-    #      ls -Path "${{ github.workspace }}"
-    #      echo "*********************************************"
-    #      ls  -Path "${{ github.workspace }}/build"
-    #      echo "*********************************************"
-    #      ls  -Recurse -Exclude ".git,libusb,pthread-win32,debian" -Path "${{ github.workspace }}/build"
-    #      echo "*********************************************"
-    #      echo "*********************************************"
-    #      ls -Recurse -Exclude ".git,,libusb,pthread-win32,debian,build" -Path "${{ github.workspace }}"
-    #      echo "*********************************************"
-    #      cat "${{ github.workspace }}/cmake_install.cmake"
-    #      echo "*********************************************"
-    #      cat "${{ github.workspace }}/build/cmake_install.cmake"
-    #      echo "*********************************************"
-    #      cat "${{ github.workspace }}/build\src\rtlsdr.vcxproj"
-    #      echo "*********************************************"
+    - name: List after build
+      if: ${{ env.DO_LIST == 'True' }}
+      run: |
+          ## cat "${{ github.workspace }}/build/src/cmake_install.cmake"
+          ls -Path "${{ runner.workspace }}"
+          echo "*********************************************"
+          ls -Path "${{ github.workspace }}"
+          echo "*********************************************"
+          ls  -Path "${{ github.workspace }}/build"
+          echo "*********************************************"
+          ls  -Recurse -Exclude ".git,libusb,pthread-win32,debian" -Path "${{ github.workspace }}/build"
+          echo "*********************************************"
+          echo "*********************************************"
+          ls -Recurse -Exclude ".git,,libusb,pthread-win32,debian,build" -Path "${{ github.workspace }}"
+          echo "*********************************************"
+          cat "${{ github.workspace }}/cmake_install.cmake"
+          echo "*********************************************"
+          cat "${{ github.workspace }}/build/cmake_install.cmake"
+          echo "*********************************************"
+          cat "${{ github.workspace }}/build\src\rtlsdr.vcxproj"
+          echo "*********************************************"
 
-    #- name: Collect files to distribute
-    #  working-directory: ${{github.workspace}}
-    #  run: |
-    #    cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
-    #    cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
+    - name: Collect files to distribute
+      working-directory: ${{github.workspace}}
+      run: |
+        cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
+        cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
 
     - name: package and upload
       uses: actions/upload-artifact@v4
@@ -177,9 +178,6 @@ jobs:
             COPYING
             AUTHORS
             README
-
-
-
 
 
 

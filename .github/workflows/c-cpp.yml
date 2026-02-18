@@ -3,9 +3,7 @@ name: C/C++ CI
 on:
   workflow_dispatch:
   push:
-    branches: [ master, development, comms ]
   pull_request:
-    branches: [ master, development, comms ]
 
 jobs:
   build_ubuntu-amd64_latest:
@@ -134,4 +132,3 @@ jobs:
       with:
         name: rtlsdr-bin-w64_dlldep_udpsrv
         path: rtlsdr-bin-w64_dlldep_udpsrv/bin/
-

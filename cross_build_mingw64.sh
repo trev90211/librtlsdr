@@ -11,10 +11,13 @@ fi
 
 ZIP_POST="$1"
 shift
+PARAMS="$@"
 
 CROSS="x86_64-w64-mingw32"
 WN="w64"
 TOOLCHAIN="mingw-w64-x64_64.cmake"
+
+echo "$PARAMS"
 
 # libusb
 if /bin/true; then
@@ -42,15 +45,17 @@ if /bin/true; then
   cd ${REPO_DIR} && rm -rf build_${WN}
   echo -e "\n\n********************************************************"
   echo "start build of librtlsdr_${WN}"
-  mkdir ${REPO_DIR}/build_${WN} && cd ${REPO_DIR}/build_${WN} && \
-    cmake -DCMAKE_TOOLCHAIN_FILE=${REPO_DIR}/${TOOLCHAIN} \
+  mkdir ${REPO_DIR}/build_${WN} 
+  cd ${REPO_DIR}/build_${WN}
+  echo ${PARAMS}
+  cmake -DCMAKE_TOOLCHAIN_FILE=${REPO_DIR}/${TOOLCHAIN} \
       -DCMAKE_INSTALL_PREFIX=${REPO_DIR}/rtlsdr-bin-${WN}_${ZIP_POST} \
-      -DRTL_STATIC_BUILD=ON "$@"  \
+      -DRTL_STATIC_BUILD=ON ${PARAMS}  \
       -DLIBUSB_INCLUDE_DIR=${REPO_DIR}/mingw_libusb_${WN}/include/libusb-1.0 \
       -DLIBUSB_LIBRARIES=${REPO_DIR}/mingw_libusb_${WN}/lib/libusb-1.0.a \
-      ../  && \
-    make && make install
+      -S ..  
+  make 
+  make install
   md5sum  ${REPO_DIR}/rtlsdr-bin-${WN}_${ZIP_POST}/bin/* >${REPO_DIR}/rtlsdr-bin-${WN}_${ZIP_POST}/bin/md5sums.txt
   sha1sum ${REPO_DIR}/rtlsdr-bin-${WN}_${ZIP_POST}/bin/* >${REPO_DIR}/rtlsdr-bin-${WN}_${ZIP_POST}/bin/sha1sums.txt
 fi
-
