@@ -106,6 +106,11 @@ typedef int socklen_t;
 #define ENABLE_VCO_OPTIONS		1
 
 
+#ifdef _MSC_VER
+#define strtok_r strtok_s
+#endif
+
+
 /* activate/use RTL's IF AGC control .. from  https://github.com/old-dab/rtlsdr
  * purpose: make AGC more smooth .. and NOT freeze
  * most of it is in switch case on tuner_type in rtlsdr_open() */
