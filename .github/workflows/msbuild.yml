@@ -161,11 +161,11 @@ jobs:
           cat "${{ github.workspace }}/build\src\rtlsdr.vcxproj"
           echo "*********************************************"
 
-    - name: Collect files to distribute
-      working-directory: ${{github.workspace}}
-      run: |
-        cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
-        cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
+    #- name: Collect files to distribute
+    #  working-directory: ${{github.workspace}}
+    #  run: |
+    #    cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
+    #    cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
 
     - name: package and upload
       uses: actions/upload-artifact@v4
