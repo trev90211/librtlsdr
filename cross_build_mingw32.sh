@@ -34,11 +34,11 @@ if /bin/true; then
   make
   make install
   echo -e "\n\nlisting of ${REPO_DIR}/mingw_libusb_${WN}"
-  ls -alh ${REPO_DIR}/mingw_libusb_${WN}
+  ls -al ${REPO_DIR}/mingw_libusb_${WN}
   echo -e "\nlisting of ${REPO_DIR}/mingw_libusb_${WN}/include"
-  ls -alh ${REPO_DIR}/mingw_libusb_${WN}/include
+  ls -al ${REPO_DIR}/mingw_libusb_${WN}/include
   echo -e "\nlisting of ${REPO_DIR}/mingw_libusb_${WN}/lib"
-  ls -alh ${REPO_DIR}/mingw_libusb_${WN}/lib
+  ls -al ${REPO_DIR}/mingw_libusb_${WN}/lib
   echo -e "\n"
 fi
 
@@ -55,6 +55,7 @@ if /bin/true; then
       -DRTL_STATIC_BUILD=ON ${PARAMS} \
       -DLIBUSB_INCLUDE_DIR=${REPO_DIR}/mingw_libusb_${WN}/include/libusb-1.0 \
       -DLIBUSB_LIBRARIES=${REPO_DIR}/mingw_libusb_${WN}/lib/libusb-1.0.a \
+      -DLIBUSB_LINK_LIBRARIES=${REPO_DIR}/mingw_libusb_${WN}/lib/libusb-1.0.a \
       ../
   make 
   make install
