@@ -8,7 +8,7 @@
 # build for Windows' 64 bit architecture
 
 set(CMAKE_SYSTEM_NAME Windows)
-set(TOOLCHAIN_PREFIX x86_64-w64-mingw64)
+set(TOOLCHAIN_PREFIX x86_64-w64-mingw32)
 
 # cross compilers to use for C, C++ and Fortran
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc)
